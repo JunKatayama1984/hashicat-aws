@@ -1,6 +1,14 @@
+terraform {
+  experiments = [variable_validation]
+}
+
 variable "primary_region" {
   type    = string
   default = "us-east-1"
+  validation {
+    condition = contains(["us-east-1", "us-west-2"], var.primary_region)
+    error_message = "AWS Region must us-east-1 or us-west-2."
+  }
 }
 
 variable "primary_vpc"{
@@ -21,6 +29,10 @@ variable "primary_igw"{
 variable "secondary_region" {
   type    = string
   default = "us-west-2"
+  validation {
+    condition = contains(["us-east-1", "us-west-2"], var.secondary_region)
+    error_message = "AWS Region must us-east-1 or us-west-2."
+  }
 }
 
 variable "secondary_vpc"{
